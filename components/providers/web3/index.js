@@ -9,7 +9,7 @@ export default function Web3Provider({ children }) {
     provider: null,
     web3: null,
     contract: null,
-    isInitialized: false,
+    isLoading: true,
   });
 
   useEffect(() => {
@@ -21,10 +21,10 @@ export default function Web3Provider({ children }) {
           provider,
           web3,
           contract: null,
-          isInitialized: true,
+          isLoading: false,
         });
       } else {
-        setWeb3Api((api) => ({ ...api, isInitialized: true }));
+        setWeb3Api((api) => ({ ...api, isLoading: false }));
         console.log("Please, install Metamask.");
       }
     };
