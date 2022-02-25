@@ -1,8 +1,9 @@
 import { useWeb3 } from "@components/providers";
+import { Button } from "@components/ui/common";
 import Link from "next/link";
 
 export default function Navbar() {
-  const { connect, isWeb3Loaded } = useWeb3();
+  const { connect, isLoading, isWeb3Loaded } = useWeb3();
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
@@ -31,20 +32,12 @@ export default function Navbar() {
                   Whishlist
                 </a>
               </Link>
-              {isWeb3Loaded ? (
-                <span
-                  onClick={connect}
-                  className="px-8 py-3 border rounded-md text-base text-white bg-indigo-600 hover:bg-indigo-700"
-                >
-                  Connect
-                </span>
+              {isLoading ? (
+                <Button onClick={connect}>Loading...</Button>
+              ) : isWeb3Loaded ? (
+                <Button onClick={connect}>Connect</Button>
               ) : (
-                <span
-                  onClick={connect}
-                  className="px-8 py-3 border rounded-md text-base text-white bg-indigo-600 hover:bg-indigo-700"
-                >
-                  Install Metamask
-                </span>
+                <Button onClick={connect}>Install Metamask</Button>
               )}
             </div>
           </div>
