@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Course from "../../../pages/courses/[slug]";
 
 export default function Hero({ title, description, image }) {
   return (
