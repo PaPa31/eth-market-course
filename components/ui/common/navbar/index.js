@@ -9,7 +9,6 @@ export default function Navbar() {
 
   return (
     <section>
-      {account}
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
         <nav className="relative" aria-label="Global">
           <div className="flex justify-between items-center">
@@ -42,7 +41,11 @@ export default function Navbar() {
                 </Button>
               ) : isWeb3Loaded ? (
                 account ? (
-                  <Button hoverable={false} className="cursor-default">
+                  <Button
+                    variant="orange"
+                    hoverable={false}
+                    className="cursor-default"
+                  >
                     Hi there
                   </Button>
                 ) : (
@@ -50,6 +53,7 @@ export default function Navbar() {
                 )
               ) : (
                 <Button
+                  variant="red"
                   onClick={() =>
                     window.open("https://metamask.io/download/", "_blank")
                   }
@@ -61,6 +65,13 @@ export default function Navbar() {
           </div>
         </nav>
       </div>
+      {account && (
+        <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
+          <div className="text-black bg-orange-200 rounded-md p-2">
+            {account}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
