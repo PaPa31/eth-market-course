@@ -1,3 +1,4 @@
+import { useEthPrice } from "@components/hooks/useEthPrice";
 import { useAccount, useNetwork } from "@components/hooks/web3";
 import { Button } from "@components/ui/common";
 import { CourseCard, CourseList } from "@components/ui/course";
@@ -11,6 +12,8 @@ export default function Marketplace({ courses }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const { account } = useAccount();
   const { network } = useNetwork();
+  const data = useEthPrice();
+  console.log(data);
 
   return (
     <>
