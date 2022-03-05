@@ -1,4 +1,4 @@
-import ActiveLink from "@components/ui/common/link";
+import { ActiveLink } from "@components/ui/common";
 
 export default function Breadcrumbs({ items }) {
   return (
