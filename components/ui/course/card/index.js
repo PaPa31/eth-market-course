@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Card({ course, disabled, Footer }) {
+  const myLoader = ({ src, width, quality }) => {
+    return `${src}?w=${width}&q=${quality || 75}`;
+  };
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
       <div className="flex h-full">
@@ -12,9 +15,10 @@ export default function Card({ course, disabled, Footer }) {
         >
           <Image
             className={`object-cover ${disabled && "filter grayscale"}`}
+            loader={myLoader}
             src={course.coverImage}
             alt={course.title}
-            layout="intrinsic"
+            layout="responsive"
             width="200"
             height="230"
           />
