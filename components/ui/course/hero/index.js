@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 export default function Hero({ title, description, image }) {
-  const myLoader = ({ src, width, quality }) => {
-    return `${src}?w=${width}&q=${quality || 75}`;
+  const myLoader = ({ src, quality }) => {
+    return `${src}?q=${quality || 75}`;
   };
   return (
     <section>
@@ -61,6 +61,7 @@ export default function Hero({ title, description, image }) {
             src={image}
             alt={title}
             layout="fill"
+            priority={true}
           />
         </div>
       </div>
