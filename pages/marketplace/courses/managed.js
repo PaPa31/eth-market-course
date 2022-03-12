@@ -1,5 +1,6 @@
 import { useAccount, useManagedCourses } from "@components/hooks/web3";
-import { Button } from "@components/ui/common";
+import { useWeb3 } from "@components/providers";
+import { Button, Message } from "@components/ui/common";
 import {
   CourseFilter,
   ManagedCourseCard,
@@ -11,13 +12,31 @@ import { useState } from "react";
 
 export default function ManagedCourses() {
   const [email, setEmail] = useState("");
+  const [proofedOwnership, setProofedOwnership] = useState({});
+  const { web3 } = useWeb3();
   const { account } = useAccount();
   const { managedCourses } = useManagedCourses(account.data);
 
   const verifyCourse = (email, { hash, proof }) => {
-    console.log(email);
-    console.log(hash);
-    console.log(proof);
+    const emailHash = web3.utils.sha3(email);
+    const proofToCheck = web3.utils.soliditySha3(
+      {
+        type: "bytes32",
+        value: emailHash,
+      },
+      {
+        type: "bytes32",
+        value: hash,
+      }
+    );
+
+    proofToCheck === proof
+      ? setProofedOwnership({
+          [hash]: true,
+        })
+      : setProofedOwnership({
+          [hash]: false,
+        });
   };
 
   return (
@@ -47,6 +66,12 @@ export default function ManagedCourses() {
               >
                 Verify
               </Button>
+            </div>
+            <div className="mt-3">
+              {proofedOwnership[course.hash] && <Message>Verified!</Message>}
+              {proofedOwnership[course.hash] === false && (
+                <Message type="danger">Wrong Proof!</Message>
+              )}
             </div>
           </ManagedCourseCard>
         ))}
