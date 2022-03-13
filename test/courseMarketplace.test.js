@@ -84,10 +84,10 @@ contract("CourseMarketplace", (accounts) => {
     let currentOwner = null;
 
     before(async () => {
-      currentOwner = await _contract.getConractOwner();
+      currentOwner = await _contract.getContractOwner();
     });
 
-    it("getConractOwner should return deployer address", async () => {
+    it("getContractOwner should return deployer address", async () => {
       assert.equal(
         contractOwner,
         currentOwner,
