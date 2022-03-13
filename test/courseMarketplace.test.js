@@ -100,6 +100,22 @@ contract("CourseMarketplace", (accounts) => {
         _contract.transferOwnership(accounts[3], { from: accounts[4] })
       );
     });
+
+    it("should transfer ownership to 3rd address from 'accounts'", async () => {
+      await _contract.transferOwnership(accounts[2], { from: currentOwner });
+      const owner = await _contract.getContractOwner();
+      assert.equal(
+        owner,
+        accounts[2],
+        "Contract owner is not the second account"
+      );
+    });
+
+    it("should transfer ownership back to initial contract owner", async () => {
+      await _contract.transferOwnership(contractOwner, { from: accounts[2] });
+      const owner = await _contract.getContractOwner();
+      assert.equal(owner, contractOwner, "Contract owner is not set!");
+    });
   });
 });
 
