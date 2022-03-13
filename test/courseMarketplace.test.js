@@ -67,7 +67,7 @@ contract("CourseMarketplace", (accounts) => {
       await catchRevert(_contract.activateCourse(courseHash, { from: buyer }));
     });
 
-    it("should have 'activated' status", async () => {
+    it("should have 'activated' state", async () => {
       await _contract.activateCourse(courseHash, { from: contractOwner });
       const course = await _contract.getCourseByHash(courseHash);
       const expectedState = 1;
@@ -76,6 +76,28 @@ contract("CourseMarketplace", (accounts) => {
         course.state,
         expectedState,
         "Course should have 'activated' state"
+      );
+    });
+  });
+
+  describe("Transfer ownership", () => {
+    let currentOwner = null;
+
+    before(async () => {
+      currentOwner = await _contract.getConractOwner();
+    });
+
+    it("getConractOwner should return deployer address", async () => {
+      assert.equal(
+        contractOwner,
+        currentOwner,
+        "Contract owner is not matching the one from getContractOwner function"
+      );
+    });
+
+    it("should NOT transfer ownership when contract owner is not sending TX", async () => {
+      await catchRevert(
+        _contract.transferOwnership(accounts[3], { from: accounts[4] })
       );
     });
   });
