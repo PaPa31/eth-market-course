@@ -198,12 +198,14 @@ contract("CourseMarketplace", (accounts) => {
     });
 
     it("should be able repurchase with the original buyer", async () => {
-      const beforeTextBuyerBalance = await getBalance(buyer);
+      const beforeTxBuyerBalance = await getBalance(buyer);
+      const beforeTxContractBalance = await getBalance(_contract.address);
       const result = await _contract.repurchaseCourse(courseHash2, {
         from: buyer,
         value,
       });
-      const afterTextBuyerBalance = await getBalance(buyer);
+      const afterTxBuyerBalance = await getBalance(buyer);
+      const afterTxContractBalance = await getBalance(_contract.address);
 
       const course = await _contract.getCourseByHash(courseHash2);
       const exptectedState = 0;
@@ -220,8 +222,13 @@ contract("CourseMarketplace", (accounts) => {
         `The course price is not equal to ${value}`
       );
       assert.equal(
-        toBN(beforeTextBuyerBalance).sub(toBN(value)).sub(gas).toString(),
-        afterTextBuyerBalance,
+        toBN(beforeTxContractBalance).add(toBN(value)).toString(),
+        afterTxContractBalance,
+        "Contract balance is not correct!"
+      );
+      assert.equal(
+        toBN(beforeTxBuyerBalance).sub(toBN(value)).sub(gas).toString(),
+        afterTxBuyerBalance,
         "Client balance is not correct!"
       );
     });
