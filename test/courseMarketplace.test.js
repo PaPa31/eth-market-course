@@ -5,8 +5,17 @@ const { catchRevert } = require("./utils/exeptions");
 // Chai - assertion JS library
 
 const getBalance = async (address) => web3.eth.getBalance(address);
-
 const toBN = (value) => web3.utils.toBN(value);
+
+const getGas = async (result) => {
+  const tx = await web3.eth.getTransaction(result.tx);
+
+  const gasUsed = toBN(result.receipt.gasUsed);
+  const gasPrice = toBN(tx.gasPrice);
+  const gas = gasUsed.mul(gasPrice);
+
+  return gas;
+};
 
 contract("CourseMarketplace", (accounts) => {
   const courseId = "0x00000000000000000000000000003130";
@@ -194,14 +203,11 @@ contract("CourseMarketplace", (accounts) => {
         from: buyer,
         value,
       });
-      const tx = await web3.eth.getTransaction(result.tx);
       const afterTextBuyerBalance = await getBalance(buyer);
 
-      const gasUsed = toBN(result.receipt.gasUsed);
-      const gasPrice = toBN(tx.gasPrice);
-      const gas = gasUsed.mul(gasPrice);
       const course = await _contract.getCourseByHash(courseHash2);
       const exptectedState = 0;
+      const gas = await getGas(result);
 
       assert.equal(
         course.state,
