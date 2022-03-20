@@ -6,16 +6,6 @@ import { BaseLayout } from "@components/ui/layout";
 import { MarketHeader } from "@components/ui/marketplace";
 import { useState } from "react";
 
-// BEFORE TX BALANCE -> 82,06930636599999999
-
-// GAS 136993 * 20000000000 -> 2739860000000000 -> 0,00273986
-
-// GAS + VALUE SEND = 0,00273986 + 1 -> 1,00273986
-
-// AFTER TX -> 81,066566506 (calculator rounded)
-// AFTER TX -> 81066566505999999990
-//             82066566505999999990 (AFTER Deactevated)
-
 const VerificationInput = ({ onVerify }) => {
   const [email, setEmail] = useState("");
 
