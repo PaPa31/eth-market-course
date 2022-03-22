@@ -5,7 +5,7 @@ import { CourseFilter, ManagedCourseCard } from "@components/ui/course";
 import { BaseLayout } from "@components/ui/layout";
 import { MarketHeader } from "@components/ui/marketplace";
 import { normalizeOwnedCourse } from "@utils/normalize";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const VerificationInput = ({ onVerify }) => {
   const [email, setEmail] = useState("");
@@ -95,6 +95,44 @@ export default function ManagedCourses() {
     setSearchedCourse(null);
   };
 
+  const renderCard = (course, isSearched) => {
+    return (
+      <ManagedCourseCard
+        key={course.ownedCourseId}
+        isSearched={isSearched}
+        course={course}
+      >
+        <VerificationInput
+          onVerify={(email) => {
+            verifyCourse(email, { hash: course.hash, proof: course.proof });
+          }}
+        />
+        <div className="mt-3">
+          {proofedOwnership[course.hash] && <Message>Verified!</Message>}
+          {proofedOwnership[course.hash] === false && (
+            <Message type="danger">Wrong Proof!</Message>
+          )}
+          {course.state === "purchased" && (
+            <div>
+              <Button
+                onClick={() => activateCourse(course.hash)}
+                variant="green"
+              >
+                Activate
+              </Button>
+              <Button
+                onClick={() => deactivateCourse(course.hash)}
+                variant="red"
+              >
+                Deactivate
+              </Button>
+            </div>
+          )}
+        </div>
+      </ManagedCourseCard>
+    );
+  };
+
   if (!account.isAdmin) {
     return null;
   }
@@ -104,37 +142,15 @@ export default function ManagedCourses() {
       <MarketHeader />
       <CourseFilter onSearchSubmit={searchCourse} />
       <section className="grid grid-cols-1">
-        {managedCourses.data?.map((course) => (
-          <ManagedCourseCard key={course.ownedCourseId} course={course}>
-            <VerificationInput
-              onVerify={(email) => {
-                verifyCourse(email, { hash: course.hash, proof: course.proof });
-              }}
-            />
-            <div className="mt-3">
-              {proofedOwnership[course.hash] && <Message>Verified!</Message>}
-              {proofedOwnership[course.hash] === false && (
-                <Message type="danger">Wrong Proof!</Message>
-              )}
-              {course.state === "purchased" && (
-                <div>
-                  <Button
-                    onClick={() => activateCourse(course.hash)}
-                    variant="green"
-                  >
-                    Activate
-                  </Button>
-                  <Button
-                    onClick={() => deactivateCourse(course.hash)}
-                    variant="red"
-                  >
-                    Deactivate
-                  </Button>
-                </div>
-              )}
-            </div>
-          </ManagedCourseCard>
-        ))}
+        {searchedCourse && (
+          <div>
+            <h1 className="text-2xl font-bold p-5">Search</h1>
+
+            {renderCard(searchedCourse, true)}
+          </div>
+        )}
+        <h1 className="text-2xl font-bold p-5">All Courses</h1>
+        {managedCourses.data?.map((course) => renderCard(course))}
       </section>
     </>
   );
