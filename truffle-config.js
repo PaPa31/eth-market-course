@@ -35,3 +35,8 @@ module.exports = {
 };
 
 // gas * gasPrice = 5500000 * 20000000000 = 110000000000000000 (1,1e+17) = 0.11 ETH = 346.10 USD
+
+// transaction hash: 0xc3d42e592779f88e5bb10faa6534723f9ffbbc2e48324df9a84cbb4426027862
+// contract address: 0x5900c3589e74ac3c879a23D87647D0dE1AB90330
+
+// 0,00000002 * 1499653 = 0,02999306
