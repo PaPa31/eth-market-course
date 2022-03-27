@@ -13,9 +13,9 @@ module.exports = {
       provider: () =>
         new HDWalletProvider({
           mnemonic: {
-            phrase: "",
+            phrase: keys.MNEMONIC,
           },
-          providerOrUrl: `https://ropsten.infura.io/v3/${keys.INFURA_PROJECT_ID}`,
+          providerOrUrl: `https://ropsten.infura.io/v3/${keys.INFURA_PROJECT_ID}`, // ropsten.infura.io/v3/7835fbff97fe48589733a38dc18a5634
           addressIndex: 0,
         }),
       network_id: 3,
