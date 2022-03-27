@@ -73,7 +73,9 @@ contract CourseMarketplace {
     }
 
     function emergencyWithdraw() external onlyWhenStopped onlyOwner {
-        (bool success, ) = owner.call{value: address(this).balance}("");
+        (bool success, ) = owner.call{value: payable(address(this)).balance}(
+            ""
+        );
         require(success, "Transfer failed.");
     }
 
@@ -86,7 +88,7 @@ contract CourseMarketplace {
     }
 
     function resumeContract() external onlyOwner {
-        isStopped = true;
+        isStopped = false;
     }
 
     function purchaseCourse(
@@ -100,6 +102,7 @@ contract CourseMarketplace {
         }
 
         uint256 id = totalOwnedCourses++;
+
         ownedCourseHash[id] = courseHash;
         ownedCourses[courseHash] = Course({
             id: id,
