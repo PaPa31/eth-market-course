@@ -34,9 +34,14 @@ module.exports = {
   },
 };
 
-// gas * gasPrice = 5500000 * 20000000000 = 110000000000000000 (1,1e+17) = 0.11 ETH = 346.10 USD
+// Random Example from https://etherscan.io/
 
-// transaction hash: 0xc3d42e592779f88e5bb10faa6534723f9ffbbc2e48324df9a84cbb4426027862
-// contract address: 0x5900c3589e74ac3c879a23D87647D0dE1AB90330
+// Base Fee (determind by ethereum) => 14.725152629 Gwei
+// Max Priority Gas Fee => 2 Gwei
+// Gas Price = Base Fee + Max Priority Gas Fee = 16.725152629 Gwei
+// Gas Used = 21000
+// Transaction Fee = Gas Used * Gas Price = 351, 228.205209 Gwei (0.000351228205209 Eth)
 
-// 0,00000002 * 1499653 = 0,02999306
+// Burnt Fee => Base Fee * Gas Used = 0.000309228205209 Eth
+
+// Rest To Miner => Max Priority Gas Fee * Gas Used = 42000 Gwei
