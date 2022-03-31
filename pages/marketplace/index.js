@@ -43,9 +43,9 @@ export default function Marketplace({ courses }) {
         }
       );
 
-      _purchaseCourse(hexCourseId, proof, value);
+      withToast(_purchaseCourse(hexCourseId, proof, value));
     } else {
-      _repurchaseCourse(orderHash, value);
+      withToast(_repurchaseCourse(orderHash, value));
     }
   };
 
@@ -54,9 +54,10 @@ export default function Marketplace({ courses }) {
       const result = await contract.methods
         .purchaseCourse(hexCourseId, proof)
         .send({ from: account.data, value });
-      console.log(result);
-    } catch {
-      console.error("Purchase course: Operation has failed!");
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
     }
   };
 
@@ -65,33 +66,16 @@ export default function Marketplace({ courses }) {
       const result = await contract.methods
         .repurchaseCourse(courseHash)
         .send({ from: account.data, value });
-      console.log(result);
-    } catch {
-      console.error("Purchase course: Operation has failed!");
-    }
-  };
 
-  const notify = () => {
-    //const resolveWithSomeData = new Promise((resolve) =>
-    //  setTimeout(
-    //    () =>
-    //      resolve({
-    //        transactionHash:
-    //          "0xa10db1ffd5e551742be579f616ec12ee8715465735422edd46460eba1a6b0e53",
-    //      }),
-    //    3000
-    //  )
-    //);
-    const resolveWithSomeData = new Promise((resolve, reject) =>
-      setTimeout(() => reject(new Error("Some Error")), 3000)
-    );
-    withToast(resolveWithSomeData);
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 
   return (
     <>
       <MarketHeader />
-      <Button onClick={notify}>Notify!</Button>
       <CourseList courses={courses}>
         {(course) => {
           const owned = ownedCourses.lookup[course.id];
