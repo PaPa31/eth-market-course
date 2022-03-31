@@ -6,8 +6,8 @@ import { BaseLayout } from "@components/ui/layout";
 import { MarketHeader } from "@components/ui/marketplace";
 import { OrderModal } from "@components/ui/order";
 import { getAllCourses } from "@content/courses/fetcher";
+import { withToast } from "@utils/toast";
 import { useState } from "react";
-import { toast } from "react-toastify";
 
 export default function Marketplace({ courses }) {
   const { web3, contract, requireInstall } = useWeb3();
@@ -73,32 +73,19 @@ export default function Marketplace({ courses }) {
 
   const notify = () => {
     //const resolveWithSomeData = new Promise((resolve) =>
-    //  setTimeout(() => resolve("world"), 3000)
+    //  setTimeout(
+    //    () =>
+    //      resolve({
+    //        transactionHash:
+    //          "0xa10db1ffd5e551742be579f616ec12ee8715465735422edd46460eba1a6b0e53",
+    //      }),
+    //    3000
+    //  )
     //);
     const resolveWithSomeData = new Promise((resolve, reject) =>
-      setTimeout(() => reject(new Error("⚠ Some Error")), 3000)
+      setTimeout(() => reject(new Error("Some Error")), 3000)
     );
-    toast.promise(resolveWithSomeData, {
-      pending: {
-        render() {
-          return "I'm loading";
-        },
-        icon: false,
-      },
-      success: {
-        render({ data }) {
-          return `Hello ${data}`;
-        },
-        // other options
-        icon: "✔",
-      },
-      error: {
-        render({ data }) {
-          // When the promise reject, data will contains the error
-          return <div>{data.message ?? "Transaction has faild"}</div>;
-        },
-      },
-    });
+    withToast(resolveWithSomeData);
   };
 
   return (
