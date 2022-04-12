@@ -46,9 +46,6 @@ module.exports = {
 
 // Rest To Miner => Max Priority Gas Fee * Gas Used = 42000 Gwei
 
-//NEXT_PUBLIC_TARGET_CHAIN_ID = 1337;
-//NEXT_PUBLIC_NETWORK_ID = 5777;
-
 //curl https://ropsten.infura.io/v3/7835fbff97fe48589733a38dc18a5634 \
 //-X POST \
 //-H "Content-Type: application/json" \
