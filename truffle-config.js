@@ -24,6 +24,22 @@ module.exports = {
       confirmation: 2, // number of blocks to wait between deployment
       timeoutBlocks: 200, // number of blocks before deployment times out
     },
+    live: {
+      provider: () =>
+        new HDWalletProvider({
+          mnemonic: {
+            phrase: keys.MNEMONIC,
+          },
+          providerOrUrl: `https://mainet.infura.io/v3/${keys.INFURA_PROJECT_ID}`, // ropsten.infura.io/v3/7835fbff97fe48589733a38dc18a5634
+          addressIndex: 0,
+        }),
+      network_id: 3,
+      gas: 2500000, // Gas Limit to spend
+      gasPrice: 1500000000, // unit of gas
+      confirmation: 2, // number of blocks to wait between deployment
+      timeoutBlocks: 200, // number of blocks before deployment times out
+      skipDryRun: true,
+    },
   },
 
   // Configure your compilers
